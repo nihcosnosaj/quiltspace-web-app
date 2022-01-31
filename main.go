@@ -1,7 +1,6 @@
 package main
 
 import (
-	"html/template"
 	"log"
 	"net/http"
 	"quiltspace/config"
@@ -9,18 +8,11 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-var tpl *template.Template
-
 type Quilt struct {
 	Qid     int
 	Name    string
 	Style   string
 	Pattern string
-}
-
-func init() {
-	// parse templates in /template/ directory
-	tpl = template.Must(template.ParseGlob("templates/*"))
 }
 
 func main() {
@@ -50,7 +42,7 @@ func quiltsIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		qlts = append(qlts, qlt)
 	}
 
-	tpl.ExecuteTemplate(w, "index.html", qlts)
+	config.TPL.ExecuteTemplate(w, "index.html", qlts)
 }
 
 func index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
