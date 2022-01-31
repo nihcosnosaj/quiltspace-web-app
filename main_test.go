@@ -8,13 +8,13 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func TestIndex(t *testing.T) {
+func TestQuiltsIndex(t *testing.T) {
 	t.Run("return welcome string", func(t *testing.T) {
 		request, _ := http.NewRequest(http.MethodGet, "/", nil)
 		response := httptest.NewRecorder()
 		ps := httprouter.Params{}
 
-		Index(response, request, ps)
+		quiltsIndex(response, request, ps)
 
 		got := response.Body.String()
 		want := "Welcome to the Quiltspace!\n"
