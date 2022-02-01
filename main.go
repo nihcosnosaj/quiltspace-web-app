@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"quiltspace/config"
@@ -10,7 +11,7 @@ import (
 )
 
 type Quilt struct {
-	Qid     int
+	Qid     string
 	Name    string
 	Style   string
 	Pattern string
@@ -25,6 +26,8 @@ func main() {
 	router.GET("/quilts/show", quiltsShow)
 	router.GET("/quilts/create", quiltsCreateForm)
 	router.POST("/quilts/create/process", quiltsCreateProcess)
+	router.GET("/quilts/update", quiltsUpdateForm)
+	router.POST("/quilts/update/process", quiltsUpdateProcess)
 	http.ListenAndServe(":8080", router)
 }
 
@@ -132,6 +135,73 @@ func quiltsCreateProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 
 	// confirm insertion into database
 	config.TPL.ExecuteTemplate(w, "created.html", qlt)
+}
+
+// quiltsUpdateForm grabs the name of the quilt needing updating from the template form
+// and queries the database for that quilt. It then creates a new type quilt instance that
+// holds the query data for the update form in the template executed at the end of the function.
+func quiltsUpdateForm(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)
+		return
+	}
+
+	name := r.FormValue("name")
+	if name == "" {
+		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		return
+	}
+
+	row := config.DB.QueryRow("SELECT * FROM quilts WHERE name = $1", name)
+
+	qlt := Quilt{}
+	err := row.Scan(&qlt.Qid, &qlt.Name, &qlt.Style, &qlt.Pattern)
+	switch {
+	case err == sql.ErrNoRows:
+		http.NotFound(w, r)
+		return
+	case err != nil:
+		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		return
+	}
+
+	config.TPL.ExecuteTemplate(w, "update.html", qlt)
+}
+
+// quiltsUpdateProcess executes the updates made to the quilt selected in quiltsUpdateForm.
+// Yes, it does use POST to update an already existing resource, but current HTML only supports
+// GET and POST in forms. A workaround for this so PUT can be used is on the to-do list.
+// For now, quiltsUpdateProcess retrieves the form values from the update form, validates them,
+// and then executes the update in the database based on the Quilt ID.
+func quiltsUpdateProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	if r.Method != "POST" {
+		fmt.Println(r.Method)
+		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)
+		return
+	}
+
+	// get form values
+	qlt := Quilt{}
+	qlt.Qid = r.FormValue("qid")
+	qlt.Name = r.FormValue("name")
+	qlt.Style = r.FormValue("style")
+	qlt.Pattern = r.FormValue("pattern")
+
+	// validate form values
+	if qlt.Name == "" || qlt.Style == "" || qlt.Pattern == "" {
+		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		return
+	}
+
+	// update values in database
+	var err error
+	_, err = config.DB.Exec("UPDATE quilts SET name = $1, style = $2, pattern = $3 WHERE qid=$4", qlt.Name, qlt.Style, qlt.Pattern, qlt.Qid)
+	if err != nil {
+		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		return
+	}
+
+	config.TPL.ExecuteTemplate(w, "updated.html", qlt)
 }
 
 // index redirects all requests to "/" to "/quilts"
