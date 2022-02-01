@@ -16,3 +16,9 @@ You will need to configure a PostgreSQL database (or I suppose any SQL relationa
 
 Then, you will need to create a proper login string for your PostgreSQL database and import it into the config/db.go file as an environment variable. 
 
+The login string should follow this format:
+```
+"postgres://user:password@localhost/database?sslmode=disable"
+```
+
+You may want to consider which sslmode you are using. I chose to disable it as I am only working locally for now. When I deploy, I will enable SSL to encrypt the connection between the client and server. 
