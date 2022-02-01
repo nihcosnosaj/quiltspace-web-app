@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Index</title>
+        <title>Quilt Created</title>
         <style>
             html, body, p {
                 padding: 0;
@@ -27,12 +27,10 @@
         </style>
     </head>
     <body>
-        <h1>Quilt Index:</h1>
-        {{range .}}
-            <p><a href="/quilts/show?name={{.Name}}">{{.Name}}</a> - {{.Style}} - {{.Pattern}}</p>
-        {{end}}
 
-        <p class="link"><a href="/quilts/create">Create a Quilt</a></p> 
-        
+        <p>Created a New Quilt!</p>
+
+        <p><a href="/quilts/show?name={{.Name}}">{{.Name}} - {{.Style}} - {{.Pattern}}</a></p>
+        <p class="link"><a href="/quilts">All Quilts</a></p>
     </body>
 </html>
