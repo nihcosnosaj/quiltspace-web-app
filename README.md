@@ -8,7 +8,7 @@ I've decided to use a third-party ServeMux, [httprouter](https://godoc.org/githu
 
 ## Set-Up
 
-You will need to configure a PostgreSQL databsae (or I suppose any SQL relational database would work fine) with the following fields:
+You will need to configure a PostgreSQL database (or I suppose any SQL relational database would work fine) with the following fields:
 - Qid (an autoincrementing (serial primary key) number)
 - Name 
 - Style
