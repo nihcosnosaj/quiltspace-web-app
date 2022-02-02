@@ -29,7 +29,7 @@
     <body>
         <h1>Quilt Index:</h1>
         {{range .}}
-            <p><a href="/quilts/show?name={{.Name}}">{{.Name}}</a> - {{.Style}} - {{.Pattern}} - <a href="/quilts/update?name={{.Name}}">update</a></p>
+            <p><a href="/quilts/show?name={{.Name}}">{{.Name}}</a> - {{.Style}} - {{.Pattern}} - <a href="/quilts/update?name={{.Name}}">update</a> - <a href="/quilts/delete/process?qid={{.Qid}}">delete</a></p>
         {{end}}
 
         <p class="link"><a href="/quilts/create">Create a Quilt</a></p> 

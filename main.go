@@ -28,6 +28,7 @@ func main() {
 	router.POST("/quilts/create/process", quiltsCreateProcess)
 	router.GET("/quilts/update", quiltsUpdateForm)
 	router.POST("/quilts/update/process", quiltsUpdateProcess)
+	router.GET("/quilts/delete/process", quiltsDeleteProcess)
 	http.ListenAndServe(":8080", router)
 }
 
@@ -202,6 +203,33 @@ func quiltsUpdateProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 	}
 
 	config.TPL.ExecuteTemplate(w, "updated.html", qlt)
+}
+
+// quiltsDeleteProcess takes a given quilt ID number and deletes it from the database.
+// It doesn't render a template, and instead returns the client back to the main index of
+// all quilts. As of now, there is not "Are you sure you want to delete this?" but it may
+// be something worth implementing in the near future.
+func quiltsDeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)
+		return
+	}
+
+	quiltid := r.FormValue("qid")
+	if quiltid == "" {
+		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		return
+	}
+
+	// delete quilt
+	_, err := config.DB.Exec("DELETE FROM quilts WHERE qid=$1", quiltid)
+	if err != nil {
+		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/quilts", http.StatusSeeOther)
+
 }
 
 // index redirects all requests to "/" to "/quilts"
