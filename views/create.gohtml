@@ -1,0 +1,9 @@
+{{define "yield"}}
+<h1>Create New Quilt</h1>
+<form method="post" action="/quilts/create/process">
+    <input type="text" name="name" placeholder="quilt name" required autofocus>
+    <input type="text" name="style" placeholder="style" required>
+    <input type="text" name="pattern" placeholder="pattern" required>
+    <input type="submit">
+</form>
+{{end}}

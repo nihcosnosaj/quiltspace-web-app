@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"quiltspace/config"
+	"quiltspace/views"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -17,7 +18,21 @@ type Quilt struct {
 	Pattern string
 }
 
+var quiltindex *views.View
+var show *views.View
+var createform *views.View
+var createprocess *views.View
+var updateform *views.View
+var updateprocess *views.View
+
 func main() {
+
+	quiltindex = views.NewView("bootstrap", "views/index.gohtml")
+	show = views.NewView("bootstrap", "views/show.gohtml")
+	createform = views.NewView("bootstrap", "views/create.gohtml")
+	createprocess = views.NewView("bootstrap", "views/created.gohtml")
+	updateform = views.NewView("bootstrap", "views/update.gohtml")
+	updateprocess = views.NewView("boostrap", "views/updated.gohtml")
 
 	// handling routing with router from httprouter
 	router := httprouter.New()
@@ -59,7 +74,9 @@ func quiltsIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		qlts = append(qlts, qlt)
 	}
 
-	config.TPL.ExecuteTemplate(w, "index.html", qlts)
+	fmt.Println("rendering quiltIndex")
+	fmt.Println("debug:", quiltindex.Template.Tree)
+	quiltindex.Render(w, qlts)
 }
 
 // quiltsShow handles all requests to "/quilts/show" from the client. It displays a
@@ -93,7 +110,7 @@ func quiltsShow(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	config.TPL.ExecuteTemplate(w, "show.html", qlt)
+	show.Render(w, qlt)
 
 }
 
@@ -102,7 +119,7 @@ func quiltsShow(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 // entered on the webpage, a call to quiltsCreateProcess actually processes the
 // insertion into the database.
 func quiltsCreateForm(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	config.TPL.ExecuteTemplate(w, "create.html", nil)
+	createform.Render(w, nil)
 }
 
 // quiltsCreateProcess handles inserting the information the user inputted into the form
@@ -135,7 +152,7 @@ func quiltsCreateProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 	}
 
 	// confirm insertion into database
-	config.TPL.ExecuteTemplate(w, "created.html", qlt)
+	createprocess.Render(w, qlt)
 }
 
 // quiltsUpdateForm grabs the name of the quilt needing updating from the template form
@@ -166,7 +183,7 @@ func quiltsUpdateForm(w http.ResponseWriter, r *http.Request, _ httprouter.Param
 		return
 	}
 
-	config.TPL.ExecuteTemplate(w, "update.html", qlt)
+	updateform.Render(w, qlt)
 }
 
 // quiltsUpdateProcess executes the updates made to the quilt selected in quiltsUpdateForm.
@@ -202,7 +219,7 @@ func quiltsUpdateProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 		return
 	}
 
-	config.TPL.ExecuteTemplate(w, "updated.html", qlt)
+	updateprocess.Render(w, qlt)
 }
 
 // quiltsDeleteProcess takes a given quilt ID number and deletes it from the database.

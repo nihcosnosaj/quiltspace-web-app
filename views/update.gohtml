@@ -1,0 +1,10 @@
+{{define "yield"}}
+<h1>Update a Quilt</h1>
+<form method="post" action="/quilts/update/process">
+    <input type="text" name="qid" placeholder="quilt id" value="{{.Qid}}" readonly>
+    <input type="text" name="name" placeholder="name" required autofocus value="{{.Name}}">
+    <input type="text" name="style" placeholder="style" required value="{{.Style}}">
+    <input type="text" name="pattern" placeholder="pattern" required value="{{.Pattern}}">
+    <input type="submit">
+</form>
+{{end}}
