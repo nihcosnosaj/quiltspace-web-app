@@ -33,7 +33,6 @@ type View struct {
 
 // Render handles executing the template using the provided data interface. The results are sent to the response writer.
 func (v *View) Render(w http.ResponseWriter, data interface{}) error {
-	fmt.Println("rendering: ", v.Layout, "with this data", data)
 	return v.Template.ExecuteTemplate(w, v.Layout, data)
 }
 
@@ -42,8 +41,6 @@ func (v *View) Render(w http.ResponseWriter, data interface{}) error {
 // string in the slice is the path to a layout file ending in .gohtml
 func layoutFiles() []string {
 	files, err := filepath.Glob(LayoutDir + "/*.gohtml")
-	fmt.Println(LayoutDir)
-	fmt.Println("from layoutFiles", files)
 	if err != nil {
 		panic(err)
 	}

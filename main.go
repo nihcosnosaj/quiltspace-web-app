@@ -74,8 +74,6 @@ func quiltsIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		qlts = append(qlts, qlt)
 	}
 
-	fmt.Println("rendering quiltIndex")
-	fmt.Println("debug:", quiltindex.Template.Tree)
 	quiltindex.Render(w, qlts)
 }
 
