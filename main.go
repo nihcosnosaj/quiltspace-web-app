@@ -32,7 +32,7 @@ func main() {
 	createform = views.NewView("bootstrap", "views/create.gohtml")
 	createprocess = views.NewView("bootstrap", "views/created.gohtml")
 	updateform = views.NewView("bootstrap", "views/update.gohtml")
-	updateprocess = views.NewView("boostrap", "views/updated.gohtml")
+	updateprocess = views.NewView("bootstrap", "views/updated.gohtml")
 
 	// handling routing with router from httprouter
 	router := httprouter.New()
