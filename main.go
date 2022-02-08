@@ -24,9 +24,11 @@ var createform *views.View
 var createprocess *views.View
 var updateform *views.View
 var updateprocess *views.View
+var homeview *views.View
 
 func main() {
 
+	homeview = views.NewView("bootstrap", "views/home.gohtml")
 	quiltindex = views.NewView("bootstrap", "views/index.gohtml")
 	show = views.NewView("bootstrap", "views/show.gohtml")
 	createform = views.NewView("bootstrap", "views/create.gohtml")
@@ -36,7 +38,7 @@ func main() {
 
 	// handling routing with router from httprouter
 	router := httprouter.New()
-	router.GET("/", index)
+	router.GET("/", home)
 	router.GET("/quilts", quiltsIndex)
 	router.GET("/quilts/show", quiltsShow)
 	router.GET("/quilts/create", quiltsCreateForm)
@@ -247,7 +249,13 @@ func quiltsDeleteProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 
 }
 
-// index redirects all requests to "/" to "/quilts"
-func index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	http.Redirect(w, r, "/quilts", http.StatusSeeOther)
+// home displays the home page template and is the landing page for all requests
+// to the root "/"
+func home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)
+		return
+	}
+
+	homeview.Render(w, nil)
 }
