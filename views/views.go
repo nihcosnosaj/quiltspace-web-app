@@ -8,6 +8,25 @@ import (
 
 var LayoutDir string = "views/layout"
 
+var IndexView *View
+var ShowView *View
+var CreateFormView *View
+var CreateProcessView *View
+var UpdateFormView *View
+var UpdateProcessView *View
+var HomeView *View
+
+func init() {
+	// intialiaze new views a
+	HomeView = NewView("bootstrap", "views/home.gohtml")
+	IndexView = NewView("bootstrap", "views/index.gohtml")
+	ShowView = NewView("bootstrap", "views/show.gohtml")
+	CreateFormView = NewView("bootstrap", "views/create.gohtml")
+	CreateProcessView = NewView("bootstrap", "views/created.gohtml")
+	UpdateFormView = NewView("bootstrap", "views/update.gohtml")
+	UpdateProcessView = NewView("bootstrap", "views/updated.gohtml")
+}
+
 // NewView is responsible for handling all of the work required to prepare
 // a view. Once the view is prepared, NewView returns a pointer to an object of
 // type View.
