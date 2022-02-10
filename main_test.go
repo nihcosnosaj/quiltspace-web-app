@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"net/http/httptest"
+	"quiltspace/quilts"
 	"strings"
 	"testing"
 
@@ -14,7 +15,7 @@ func TestQuiltsIndex(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/quilts", nil)
 	ps := httprouter.Params{}
 
-	quiltsIndex(wr, req, ps)
+	quilts.Index(wr, req, ps)
 
 	if wr.Code != http.StatusOK {
 		t.Errorf("got http status code %d, expected 200", wr.Code)
@@ -30,7 +31,7 @@ func TestQuiltsCreateForm(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/quilts/create", nil)
 	ps := httprouter.Params{}
 
-	quiltsCreateForm(wr, req, ps)
+	quilts.CreateForm(wr, req, ps)
 
 	if wr.Code != http.StatusOK {
 		t.Errorf("got http status code %d, expected 200", wr.Code)
