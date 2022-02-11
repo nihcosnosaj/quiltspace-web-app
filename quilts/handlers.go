@@ -11,7 +11,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-// quiltsIndex handles all requests to "/" and "/quilts" from the client. It displays an index
+// Index handles all requests to "/" and "/quilts" from the client. It displays an index
 // of all quilts in the database. It querys for all quilts, then creates a slice
 // of type Quilt in which to place each quilt after the row has been scanned and
 // partitioned accordingly.
@@ -53,7 +53,7 @@ func About(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	views.AboutView.Render(w, nil)
 }
 
-// quiltsShow handles all requests to "/quilts/show" from the client. It displays a
+// Show handles all requests to "/quilts/show" from the client. It displays a
 // single quilt based on the passed in quilt name, "name", from the FormValue of the
 // request.
 func Show(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -88,7 +88,7 @@ func Show(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 }
 
-// quiltsCreateForm simply brings up the form for entering information for a new
+// CreateForm simply brings up the form for entering information for a new
 // quilting project to be entered into the database. Once the "submit" button is
 // entered on the webpage, a call to quiltsCreateProcess actually processes the
 // insertion into the database.
@@ -96,7 +96,7 @@ func CreateForm(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	views.CreateFormView.Render(w, nil)
 }
 
-// quiltsCreateProcess handles inserting the information the user inputted into the form
+// CreateProcess handles inserting the information the user inputted into the form
 // on the webpage and validates the data. It then inserts it into the database and executes
 // a confirmation template to let the user know the quilt was successfully created.
 func CreateProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -129,7 +129,7 @@ func CreateProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 	views.CreateProcessView.Render(w, qlt)
 }
 
-// quiltsUpdateForm grabs the name of the quilt needing updating from the template form
+// UpdateForm grabs the name of the quilt needing updating from the template form
 // and queries the database for that quilt. It then creates a new type quilt instance that
 // holds the query data for the update form in the template executed at the end of the function.
 func UpdateForm(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -160,7 +160,7 @@ func UpdateForm(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	views.UpdateFormView.Render(w, qlt)
 }
 
-// quiltsUpdateProcess executes the updates made to the quilt selected in quiltsUpdateForm.
+// UpdateProcess executes the updates made to the quilt selected in quiltsUpdateForm.
 // Yes, it does use POST to update an already existing resource, but current HTML only supports
 // GET and POST in forms. A workaround for this so PUT can be used is on the to-do list.
 // For now, quiltsUpdateProcess retrieves the form values from the update form, validates them,
@@ -196,7 +196,7 @@ func UpdateProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 	views.UpdateProcessView.Render(w, qlt)
 }
 
-// quiltsDeleteProcess takes a given quilt ID number and deletes it from the database.
+// DeleteProcess takes a given quilt ID number and deletes it from the database.
 // It doesn't render a template, and instead returns the client back to the main index of
 // all quilts. As of now, there is not "Are you sure you want to delete this?" but it may
 // be something worth implementing in the near future.
