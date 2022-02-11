@@ -41,6 +41,18 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	views.IndexView.Render(w, qlts)
 }
 
+// About handles all requests to "/about" from the client. It displays a single page
+// that details any administrative information about the project, as well as any contact
+// information.
+func About(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)
+		return
+	}
+
+	views.AboutView.Render(w, nil)
+}
+
 // quiltsShow handles all requests to "/quilts/show" from the client. It displays a
 // single quilt based on the passed in quilt name, "name", from the FormValue of the
 // request.

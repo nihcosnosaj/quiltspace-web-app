@@ -15,6 +15,7 @@ var CreateProcessView *View
 var UpdateFormView *View
 var UpdateProcessView *View
 var HomeView *View
+var AboutView *View
 
 func init() {
 	// intialiaze new views a
@@ -25,6 +26,7 @@ func init() {
 	CreateProcessView = NewView("bootstrap", "views/created.gohtml")
 	UpdateFormView = NewView("bootstrap", "views/update.gohtml")
 	UpdateProcessView = NewView("bootstrap", "views/updated.gohtml")
+	AboutView = NewView("bootstrap", "views/about.gohtml")
 }
 
 // NewView is responsible for handling all of the work required to prepare
