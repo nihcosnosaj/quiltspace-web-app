@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"quiltspace/quilts"
+	"quiltspace/user"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -19,5 +20,7 @@ func main() {
 	router.GET("/quilts/update", quilts.UpdateForm)
 	router.POST("/quilts/update/process", quilts.UpdateProcess)
 	router.GET("/quilts/delete/process", quilts.DeleteProcess)
+	router.GET("/user/create", user.SignUpForm)
+	router.POST("/user/create/process", user.SignUpProcess)
 	http.ListenAndServe(":8080", router)
 }
