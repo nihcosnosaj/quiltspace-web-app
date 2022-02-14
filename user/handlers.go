@@ -56,6 +56,9 @@ func SignUpProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 
 }
 
+// LoginForm renders the template to display the login form for the user to submit
+// if they already have an account. If they don't have an account, it presents an option
+// to click which links to the SignupForm.
 func LoginForm(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	views.LoginFormView.Render(w, nil)
 }
