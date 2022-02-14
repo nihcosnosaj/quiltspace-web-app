@@ -55,3 +55,7 @@ func SignUpProcess(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 	views.SignUpFormProcessView.Render(w, usr)
 
 }
+
+func LoginForm(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	views.LoginFormView.Render(w, nil)
+}

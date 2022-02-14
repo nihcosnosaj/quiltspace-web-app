@@ -22,5 +22,6 @@ func main() {
 	router.GET("/quilts/delete/process", quilts.DeleteProcess)
 	router.GET("/user/create", user.SignUpForm)
 	router.POST("/user/create/process", user.SignUpProcess)
+	router.GET("/user/login", user.LoginForm)
 	http.ListenAndServe(":8080", router)
 }

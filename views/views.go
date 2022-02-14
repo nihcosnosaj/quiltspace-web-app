@@ -18,6 +18,7 @@ var HomeView *View
 var AboutView *View
 var SignUpFormView *View
 var SignUpFormProcessView *View
+var LoginFormView *View
 
 func init() {
 	// intialiaze new views a
@@ -31,6 +32,7 @@ func init() {
 	AboutView = NewView("bootstrap", "views/about.gohtml")
 	SignUpFormView = NewView("bootstrap", "views/signup.gohtml")
 	SignUpFormProcessView = NewView("bootstrap", "views/signedup.gohtml")
+	LoginFormView = NewView("bootstrap", "views/login.gohtml")
 }
 
 // NewView is responsible for handling all of the work required to prepare
