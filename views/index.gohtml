@@ -1,9 +1,21 @@
 {{define "yield"}}
     <h1>Quilt Index:</h1>
+
     {{range .}}
-    <p><a href="/quilts/show?name={{.Name}}">{{.Name}}</a> - {{.Style}} - {{.Pattern}} - <a
-            href="/quilts/update?name={{.Name}}">update</a> - <a href="/quilts/delete/process?qid={{.Qid}}">delete</a>
-    </p>
+    <div class="card-deck">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{.Name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{.Style}} - {{.Pattern}}</h6>
+                <p class="card-text">Some notes on the project, or a quick summary</p>
+                <a href="/quilts/show?name={{.Name}}" class="btn btn-primary">Details</a>
+                <a href="/quilts/update?name={{.Name}}" class="btn btn-primary">Update</a>
+                <a href="/quilts/delete/process?qid={{.Qid}}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+
+
     {{end}}
 
     <p class="link"><a href="/quilts/create">Create a Quilt</a></p>
